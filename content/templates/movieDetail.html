@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Filme: {{ content.title }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/movieDetail.css' %}">
+    <style>
+        /* Estilos básicos para as abas */
+        .tab {
+            display: flex;
+            justify-content: center; /* Centraliza as abas */
+            cursor: pointer;
+            padding: 10px;
+            background-color: #141414;
+            border-bottom: 1px solid #ccc;
+            max-width: 600px; /* Limita a largura total das abas */
+            margin: 0 auto; /* Centraliza as abas no contêiner */
+        }
+
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff; /* Cor do texto branca */
+        }
+
+        .tab button:hover {
+            background-color: #387373;
+            color: #fff; /* Cor do texto branca ao passar o mouse */
+        }
+
+        .tab button.active {
+            background-color: #2D3E40;
+            color: #fff; /* Cor do texto branca na aba ativa */
+        }
+
+        .tab-content {
+            display: none;
+            padding: 10px; /* Reduz o padding para diminuir o espaçamento */
+            max-width: 800px; /* Limita a largura do conteúdo das abas */
+            margin: 10px auto; /* Reduz o espaçamento superior e inferior */
+            border-radius: 8px; /* Adiciona borda arredondada para mais destaque */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Adiciona sombra para mais destaque */
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h2 {
+            color: #E4F2E7; /* Cor do título da aba */
+        }
+
+        .tab-content ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .tab-content li {
+            margin-bottom: 10px;
+        }
+
+        .reviews-container {
+            background-color: #333; /* Cor de fundo para o balão com reviews existentes */
+            border-radius: 8px;
+            padding: 10px;
+            color: #E4F2E7; /* Cor do texto das reviews */
+        }
+
+        .tab-content form {
+            margin-top: 20px;
+        }
+
+        .tab-content form button {
+            background-color: #387373;
+            color: #E4F2E7;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .tab-content form button:hover {
+            background-color: #E4F2E7;
+            color: #387373;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href='{% url 'home-videos' %}'><img src="{% static 'images/biu.png' %}" alt="BiuStreams" class="logo"></a>
+        <nav>
+            <p>Olá, {{request.user}}!</p>
+            <a href="{% url 'logout' %}" class="btn">Logout</a>
+        </nav>
+    </header>
+
+    <div class="detail-container">
+        <img src="{{ content.thumbnail.url }}" alt="{{ content.title }}" class="thumbnail">
+        <div class="movie-details">
+            <h1 class="movie-title">{{ content.title }}</h1>
+            <p class="movie-description">{{ content.description }}</p>
+            <div class="buttons">
+                <a href="{% url 'add-to-watchHistory' content.pk content.type %}"> <button>Play</button> </a>
+                {% if is_bookmarked %}
+                <a href="{% url 'remove-bookmark' content.pk 'movie' %}">
+                    <button class="remove">Remove from Bookmark</button>
+                </a>
+                {% else %}
+                <a href="{% url 'add-bookmark' content.pk 'movie' %}">
+                    <button class="add">Add to Bookmark</button>
+                </a>
+                {% endif %}
+            </div>
+            <div class="movie-info">
+                <p><strong>Gênero:</strong> {{ content.genre }}</p>
+                <p><strong>Duração:</strong> {{ content.duration }} min</p>
+                <p><strong>Classificação:</strong> {{ content.classification }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Abas para reviews -->
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Reviews')" id="defaultOpen">Reviews</button>
+    </div>
+
+    <!-- Conteúdo da aba de Reviews -->
+    <div id="Reviews" class="tab-content">
+        <h2>Reviews</h2>
+        <div class="reviews-container">
+            <ul>
+                {% for review in reviews %}
+                    <li>
+                        <strong>{{ review.user.username }}:</strong>
+                        <p>Rating: {{ review.rating }}</p>
+                        <p>{{ review.comment }}</p>
+                    </li>
+                {% empty %}
+                    <li>Nenhuma review ainda.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Formulário para adicionar uma review -->
+        <h3>Adicionar Review</h3>
+        <form action="{% url 'get-content' content.pk content.type %}" method="post">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Seu Serviço de Streaming</p>
+    </div>
+
+    <script>
+        // Função para abrir a aba selecionada
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Abre a aba padrão (Reviews) ao carregar a página
+        document.getElementById("defaultOpen").click();
+    </script>
+</body>
+</html>

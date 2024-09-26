@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiuStreams</title>
+    <link rel ="stylesheet" href="{% static '/css/home.css'%}">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header">
+        
+        <img src="{% static 'images/biu.png' %}" alt="BiuStreams" class="logo">
+        <nav>
+            <a href="{% url 'login' %}" class="btn">Login</a>
+            <a href="/usuario/cadastro" class="btn">Cadastro</a>
+        </nav>
+    </header>
+
+    <!-- Seção Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Filmes, séries e muito mais. Sem limites.</h1>
+            <p>Assista onde quiser. Cancele quando quiser.</p>
+            <a href="#" class="btn">Assine Agora</a>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <p>&copy; 2024 BiuStreams, Inc.</p>
+    </footer>
+</body>
+</html>

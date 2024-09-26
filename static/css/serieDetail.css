@@ -1,0 +1,178 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #141414;
+    color: #E4F2E7;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #2D3E40; /* Cor de fundo do cabeçalho */
+}
+
+.header img.logo {
+    width: 120px; 
+    height: 40px; 
+}
+
+.header nav {
+    display: flex;
+    align-items: center;
+}
+
+.header nav a {
+    color: #E4F2E7; /* Cor do texto dos links */
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.header nav .btn {
+    background-color: #387373; /* Cor de fundo dos botões */
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    color: #E4F2E7; /* Cor do texto dos botões */
+    cursor: pointer;
+    margin-left: 20px;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.header nav .btn:hover {
+    background-color: #E4F2E7; /* Cor de fundo ao passar o mouse */
+    color: #387373; /* Cor do texto ao passar o mouse */
+}
+
+.detail-container {
+    background-color: #2D3E40;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 900px; /* Aumentado para comportar thumbnail + texto */
+    margin: 20px auto;
+    display: flex; /* Flex para organizar lado a lado */
+}
+
+.thumbnail {
+    width: 200px; /* Tamanho maior para thumbnail */
+    height: auto;
+    border-radius: 8px;
+    margin-right: 20px; /* Espaço entre thumbnail e texto */
+}
+
+.serie-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.serie-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #E4F2E7;
+}
+
+.serie-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #E4F2E7;
+}
+
+.buttons {
+    margin-bottom: 20px;
+}
+
+.buttons button {
+    background-color: #387373; /* Cor de fundo do botão */
+    border: none;
+    color: #E4F2E7; /* Cor do texto */
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.buttons button.add {
+    background-color: #387373; /* Cor do botão "Adicionar à Minha Lista" */
+}
+
+.buttons button.remove{
+    background-color: #333;
+}
+
+.buttons button:hover {
+    background-color: #E4F2E7; /* Cor de fundo ao passar o mouse */
+    color: #387373; /* Cor do texto ao passar o mouse */
+}
+
+.serie-info p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #bbb;
+}
+
+.episodes-list {
+    width: 100%;
+    max-width: 1000px; /* Define a largura máxima */
+    margin: 20px auto; /* Centraliza e adiciona margem superior */
+    padding: 0 20px; /* Adiciona espaçamento nas laterais */
+}
+.episode-content {
+    background-color: #333;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.episode-title {
+    font-size: 18px;
+    margin: 0;
+    color: #E4F2E7;
+}
+
+.episode-description {
+    font-size: 14px;
+    color: #bbb;
+    margin-right: 10px;
+}
+
+.play-button {
+    background-color: #387373;
+    border: none;
+    color: #E4F2E7;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.play-button:hover {
+    background-color: #E4F2E7;
+    color: #387373;
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #2D3E40;
+    margin-top: auto;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 12px;
+    color: #E4F2E7;
+}

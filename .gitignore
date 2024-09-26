@@ -1,0 +1,13 @@
+# Ignore o ambiente virtual
+.venv/
+venv/
+
+# Ignore arquivos de configuração locais
+*.pyc
+__pycache__/
+*.log
+*.sqlite3
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db

@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #141414; /* Cor de fundo do corpo */
+    color: #E4F2E7; /* Cor do texto */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #2D3E40; /* Cor de fundo do cabeçalho */
+}
+
+.header img.logo {
+    width: 120px; 
+    height: 40px; 
+}
+
+.container {
+    background-color: #2D3E40; /* Cor de fundo do container */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    margin: auto;
+    margin-top: center
+}
+.container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #E4F2E7; /* Cor do título */
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #E4F2E7; /* Cor do texto dos rótulos */
+}
+.form-group input {
+    width: 95%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #333; /* Cor de fundo dos campos de entrada */
+    color: #E4F2E7; /* Cor do texto dos campos de entrada */
+}
+.form-group input[type="submit"] {
+    background-color: #387373; /* Cor de fundo do botão */
+    color: #E4F2E7; /* Cor do texto do botão */
+    cursor: pointer;
+}
+.form-group input[type="submit"]:hover {
+    background-color: #E4F2E7; /* Cor de fundo ao passar o mouse */
+    color: #387373; /* Cor do texto ao passar o mouse */
+}
+.buttons {
+    margin-bottom: 20px;
+}
+
+.buttons button {
+    background-color: #387373; /* Cor de fundo do botão */
+    border: none;
+    color: #E4F2E7; /* Cor do texto */
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.buttons button.add {
+    background-color: #333; /* Cor do botão "Adicionar à Minha Lista" */
+}
+
+.buttons button:hover {
+    background-color: #E4F2E7; /* Cor de fundo ao passar o mouse */
+    color: #387373; /* Cor do texto ao passar o mouse */
+}
+.error-message {
+    color: #E4F2E7; /* Cor da mensagem de erro */
+    margin-bottom: 15px;
+    text-align: center;
+}
+.signup-link {
+    color: #387373; /* Altere para a cor desejada */
+    text-decoration: none; /* Remove o sublinhado padrão */
+}
+
+.signup-link:hover {
+    text-decoration: underline; /* Adiciona um sublinhado ao passar o mouse */
+}
+.footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #2D3E40; /* Cor de fundo do rodapé */
+    margin-top: auto;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 12px;
+    color: #E4F2E7; /* Cor do texto do rodapé */
+}

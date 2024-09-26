@@ -1,0 +1,83 @@
+
+{% load embed_video_tags %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproduzir Vídeo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+
+        .video-player {
+            width: 100vw;   /* 100% da largura da viewport */
+            height: 100vh;  /* 100% da altura da viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;  /* Para evitar barras de rolagem se o vídeo for maior que a tela */
+        }
+
+        .video-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Verifica se há mensagens no contexto -->
+{% if messages %}
+<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Plano Gratuito</h5>
+      </div>
+      <div class="modal-body">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <a href="" class="btn btn-primary">Upgrade</a>
+        <a href="{% url 'home-videos' %}" class="btn btn-secondary">Fechar</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+   <div class="video-player">
+
+      {% video content.url|add:"?autoplay=1" %}
+      
+   </div>
+
+
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+   
+   <!-- Exibe o modal automaticamente se houver uma mensagem -->
+   <script type="text/javascript">
+       $(document).ready(function(){
+           {% if messages %}
+               $('#warningModal').modal('show');
+           {% endif %}
+       });
+   </script>
+
+</body>
+</html>

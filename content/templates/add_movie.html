@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container"> 
+    <h1>Add Movie</h1>
+    <form action = {% url 'add-movie' %} method = 'post' enctype="multipart/form-data">
+        {% csrf_token %} 
+    
+        {{ form.as_p }}
+        <button name = "submit">Add</button>
+    
+    </form>
+</div>
+
+
+
+{% endblock content %}

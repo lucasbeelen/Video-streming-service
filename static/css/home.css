@@ -1,0 +1,131 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #141414; /* Cor de fundo do corpo */
+    color: #E4F2E7; /* Cor do texto */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #2D3E40; /* Cor de fundo do cabeçalho */
+}
+
+.header img.logo {
+    width: 120px; 
+    height: 40px; 
+}
+
+.header nav {
+    display: flex;
+    align-items: center;
+}
+
+.header nav a {
+    color: #E4F2E7; /* Cor do texto dos links */
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.header nav .btn {
+    background-color: #387373; /* Cor de fundo dos botões */
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    color: #E4F2E7; /* Cor do texto dos botões */
+    cursor: pointer;
+    margin-left: 20px;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.header nav .btn:hover {
+    background-color: #E4F2E7; /* Cor de fundo ao passar o mouse */
+    color: #387373; /* Cor do texto ao passar o mouse */
+}
+
+.hero {
+    position: relative;
+    height: 80vh;
+    background-image: url('https://assets.nflxext.com/ffe/siteui/vlv3/eb21f235-c368-46ba-a6fa-e647aff54dbe/17cfbdbb-1538-4261-bb10-5681976e80d3/BR-pt-20230717-popsignuptwoweeks-perspective_alpha_website_small.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 600px;
+    color: #E4F2E7; /* Cor do texto no hero */
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.hero-content .btn {
+    background-color: #387373; /* Cor de fundo do botão hero */
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    color: #E4F2E7; /* Cor do texto do botão hero */
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.hero-content .btn:hover {
+    background-color: #E4F2E7; /* Cor de fundo do botão hero ao passar o mouse */
+    color: #387373; /* Cor do texto ao passar o mouse */
+}
+
+.section {
+    padding: 50px 20px;
+}
+
+.section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #E4F2E7; /* Cor dos títulos das seções */
+}
+
+.section .row {
+    display: flex;
+    overflow-x: scroll;
+}
+
+.section .row img {
+    margin-right: 10px;
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.section .row img:hover {
+    transform: scale(1.1);
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #2D3E40; /* Cor de fundo do rodapé */
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+    color: #E4F2E7; /* Cor do texto do rodapé */
+}

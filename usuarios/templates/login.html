@@ -1,0 +1,22 @@
+ {% extends "base.html" %} 
+
+
+{%block content%}
+    <div class="container">
+        <h1>Login</h1>
+        {% if error_message %}
+        <div class="error-message">
+            {{ error_message }}
+        </div>
+        {% endif %}
+        <form action="{%url 'login' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p  }}
+            <button name='submit' class="button">Entrar</button>
+            <input type='hidden' name='next' value='{% url 'home-videos' %}'>
+        </form>
+        
+        <p><a href='{% url 'cadastro-usuario' %}' class="signup-link">Ainda não tenho cadastro</a></p>
+    </div>
+{% endblock content %}
+

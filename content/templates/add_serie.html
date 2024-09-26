@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container"> 
+    <h1>Add Serie</h1>
+    <form action = {% url 'add-serie' %} method = 'post' enctype="multipart/form-data">
+        {% csrf_token %} 
+    
+        {{ form.as_p }}
+        <button name = "submit">Add</button>
+    
+    </form>
+</div>
+
+
+
+{% endblock content %}

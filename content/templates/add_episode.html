@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container"> 
+    <h1>Add Episode</h1>
+    <form action = {% url 'add-episode' %} method = 'post' enctype="multipart/form-data">
+        {% csrf_token %} 
+    
+        {{ form.as_p }}
+        <button name = "submit">Save</button>
+        <button type="submit" name="add_another">Save and Add another</button>
+    
+    </form>
+</div>
+
+{% endblock content %}

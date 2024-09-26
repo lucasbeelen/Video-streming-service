@@ -1,0 +1,9 @@
+# Forçar arquivos de texto a usar LF no repositório
+*.py text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+
+# Ignorar os arquivos binários
+*.png binary
+*.jpg binary
+*.exe binary

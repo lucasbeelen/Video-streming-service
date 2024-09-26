@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiuStreams</title>
+    <link rel ="stylesheet" href="{% static '/css/home.css'%}">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header">
+        <a href='{% url 'home-videos' %}'><img src="{% static 'images/biu.png' %}" alt="BiuStreams" class="logo"></a>
+        <nav>
+            <p>Olá, {{request.user}}!</p>
+            <a href="{% url 'logout' %}" class="btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Botão de Controle Parental -->
+    <section class="parental-control-section">
+        <form action="{% url 'parental-control' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">
+                {% if request.user.parental_control_enabled %}
+                    Desativar Controle Parental
+                {% else %}
+                    Ativar Controle Parental
+                {% endif %}
+            </button>
+            <p>Status: 
+                {% if request.user.parental_control_enabled %}
+                    <strong>Ativado</strong>
+                {% else %}
+                    <strong>Desativado</strong>
+                {% endif %}
+            </p>
+        </form>
+    </section>
+
+    <!-- Seções de Filmes/Séries -->
+    <section class="section">
+        <h2>Populares na BiuStreams</h2>
+        <div class="row">
+        {% for content in content %}
+            <a href="{% url 'get-content' content.pk content.type %}"><img src="{{ content.thumbnail.url }}" alt="{{ content.title }} Thumbnail"></a>
+        {% endfor %} 
+        </div>
+    </section>
+
+
+
+    <section class="section">
+        <h2>Recomendaçoes para você!</h2>
+        <div class="row">
+        {% for recomndation in recomandations %}
+            <a href="{% url 'get-content' recomndation.pk recomndation.type %}"><img src="{{ recomndation.thumbnail.url }}" alt="{{ recomndation.title }} Thumbnail"></a>
+        {% endfor %} 
+        </div>
+    </section>
+
+
+
+    <section class="section">
+        <h2>Bookmarks</h2>
+        <div class="row">
+            {% for bookmark in bookmarks %}
+            <a href="{% url 'get-content' bookmark.content_object.pk bookmark.content_object.type %}"><img src="{{ bookmark.content_object.thumbnail.url }}" alt="{{ bookmark.content_object.title }} Thumbnail"></a>
+            {% endfor %} 
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Watch History</h2>
+        <div class="row">
+            {% for watch in watchhistory %}
+            <a href="{% url 'get-content' watch.content_object.pk watch.content_object.type %}"><img src="{{ watch.content_object.thumbnail.url }}" alt="{{ bookmark.content_object.title }} Thumbnail"></a>
+            {% endfor %} 
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <p>&copy; 2024 BiuStreams, Inc.</p>
+    </footer>
+</body>
+</html>

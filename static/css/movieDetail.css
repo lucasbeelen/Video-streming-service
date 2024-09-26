@@ -1,0 +1,133 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #141414; /* Cor de fundo do corpo */
+    color: #E4F2E7; /* Cor do texto */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #2D3E40; /* Cor de fundo do cabeçalho */
+}
+
+.header img.logo {
+    width: 120px; 
+    height: 40px; 
+}
+
+.header nav {
+    display: flex;
+    align-items: center;
+}
+
+.header nav a {
+    color: #E4F2E7; /* Cor do texto dos links */
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.header nav .btn {
+    background-color: #387373; /* Cor de fundo dos botões */
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    color: #E4F2E7; /* Cor do texto dos botões */
+    cursor: pointer;
+    margin-left: 20px;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.header nav .btn:hover {
+    background-color: #E4F2E7; /* Cor de fundo ao passar o mouse */
+    color: #387373; /* Cor do texto ao passar o mouse */
+}
+
+.detail-container {
+    background-color: #2D3E40; /* Cor de fundo do container */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 600px;
+    margin: 200px auto; /* Margin-top automático */
+    display: flex;
+    align-items: center;
+}
+
+.thumbnail {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.movie-details {
+    text-align: left;
+    flex: 1;
+}
+
+.movie-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #E4F2E7; /* Cor do título */
+}
+
+.movie-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #E4F2E7; /* Cor da descrição */
+}
+
+.buttons {
+    margin-bottom: 20px;
+}
+
+.buttons button {
+    background-color: #387373; /* Cor de fundo do botão */
+    border: none;
+    color: #E4F2E7; /* Cor do texto */
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.buttons button.add {
+    background-color: #387373; /* Cor do botão "Adicionar à Minha Lista" */
+}
+.buttons button.remove{
+    background-color: #333;
+}
+
+.buttons button:hover {
+    background-color: #E4F2E7; /* Cor de fundo ao passar o mouse */
+    color: #387373; /* Cor do texto ao passar o mouse */
+}
+
+.movie-info p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #bbb; /* Cor das informações adicionais */
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #2D3E40; /* Cor de fundo do rodapé */
+    margin-top: auto;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 12px;
+    color: #E4F2E7; /* Cor do texto do rodapé */
+}

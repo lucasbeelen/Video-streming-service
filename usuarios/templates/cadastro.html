@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <!-- Container de Cadastro -->
+    <div class="container">
+        <h1>Cadastro</h1>
+        {% if error_message %}
+        <div class="error-message">
+            {{ error_message }}
+        </div>
+        {% endif %}
+        <form action="{% url 'cadastro-usuario'%}" method="POST">
+           {% csrf_token %}
+           {{form.as_p}}
+           <button name='submit' class="button">Entrar</button>
+            <input type='hidden' name='next' value='{% url 'home-videos' %}'>
+        </form>
+    </div>
+
+{% endblock content %}
+
+
