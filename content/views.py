@@ -5,10 +5,9 @@ from .forms import MovieForm, GenreForm,SerieForm,EpisodeForm
 from .models import Movie,Serie,Episode
 from django.contrib.auth.decorators import login_required
 from usuarios.models import CustomUser,Bookmark, WatchHistory, Review
-from django.contrib.contenttypes.models import ContentType
-from usuarios.forms import ReviewForm
 from django.db import IntegrityError,transaction
 from django.contrib.admin.views.decorators import staff_member_required
+from .facade import ContentDetailFacade
 
 
 # Create your views here.
@@ -160,56 +159,16 @@ def homeVideos(request):
 
 @login_required
 def get_content(request, pk, type):
-    user = request.user
-    
-    if type == 'movie':
-        movie = get_object_or_404(Movie, pk=pk)
-        content_type = ContentType.objects.get_for_model(movie)
-        is_bookmarked = Bookmark.objects.filter(user=user, content_type=content_type, object_id=movie.pk).exists()
-        reviews = Review.objects.filter(content_type=content_type, object_id=movie.pk)
-        if request.method == 'POST':
-            review_form = ReviewForm(request.POST)
-            if review_form.is_valid():
-                review = review_form.save(commit=False)
-                review.user = request.user
-                review.content_type = content_type
-                review.object_id = movie.pk
-                review.save()
-        else:
-            review_form = ReviewForm()
-        
-        template_name = 'movieDetail.html'
-        context = {'content': movie,
-                   'is_bookmarked': is_bookmarked,
-                   'review_form': review_form,
-                   'reviews': reviews,
-                }
-        
-    elif type == 'serie':
-        serie = get_object_or_404(Serie, pk=pk)
-        episodes = serie.episodes.all()  
-        content_type = ContentType.objects.get_for_model(serie)
-        is_bookmarked = Bookmark.objects.filter(user=user, content_type=content_type, object_id=serie.pk).exists()
-        reviews = Review.objects.filter(content_type=content_type, object_id=serie.pk)
-        if request.method == 'POST':
-            review_form = ReviewForm(request.POST)
-            if review_form.is_valid():
-                review = review_form.save(commit=False)
-                review.user = request.user
-                review.content_type = content_type
-                review.object_id = serie.pk
-                review.save()
-        else:
-            review_form = ReviewForm()
-        template_name = 'serieDetail.html'
-        context = {
-            'content': serie,
-            'episodes': episodes,
-            'is_bookmarked': is_bookmarked,
-            'review_form': review_form,
-            'reviews': reviews,
-        }
-    return render(request, template_name, context)
+    try:
+        facade = ContentDetailFacade(request.user, type, pk)
+        context = facade.get_context(request)
+
+        # Seleciona o template correto com base no tipo de conteúdo
+        template_name = 'movieDetail.html' if type == 'movie' else 'serieDetail.html'
+        return render(request, template_name, context)
+
+    except ValueError:
+        return HttpResponse("Tipo de conteúdo inválido", status=400)
 
 @login_required
 def playMovie(request, pk, type):
