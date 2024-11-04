@@ -9,7 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from usuarios.forms import ReviewForm
 from django.db import IntegrityError,transaction
 from django.contrib.admin.views.decorators import staff_member_required
-from .factories import ContentFactory
+
 
 # Create your views here.
 def get_similar_content(user):
@@ -22,17 +22,19 @@ def get_similar_content(user):
             favorite_genres.add(watch.content_object.genre)
     return favorite_genres
 
+
 @staff_member_required
 def addMovie(request):
     
     if request.method == 'GET':
         form = MovieForm()
-    else:  # POST
+        
+    if request.method == 'POST':
         form = MovieForm(request.POST, request.FILES)
-        movie = ContentFactory.create_movie(form)
-        if movie:
-            return HttpResponse('Novo filme adicionado com sucesso!')
-
+        if form.is_valid():
+            form.save()
+            return HttpResponse('novo filme adicionado com sucesso!')
+                  
     context = {'form': form}
     return render(request, "add_movie.html", context)
 
@@ -42,12 +44,13 @@ def addSerie(request):
     
     if request.method == 'GET':
         form = SerieForm()
-    else:  # POST
+        
+    if request.method == 'POST':
         form = SerieForm(request.POST, request.FILES)
-        serie = ContentFactory.create_serie(form)
-        if serie:
+        if form.is_valid():
+            form.save()
             return redirect('add-episode')
-
+                  
     context = {'form': form}
     return render(request, "add_serie.html", context)
 
@@ -56,17 +59,19 @@ def addSerie(request):
 def addEpisode(request):
     if request.method == 'GET':
         form = EpisodeForm()
-    else:  # POST
+        
+    if request.method == 'POST':
         form = EpisodeForm(request.POST)
-        episode = ContentFactory.create_episode(form)
-        if episode:
+        if form.is_valid():
+            form.save()
             if 'add_another' in request.POST:
                 form = EpisodeForm() 
             else:
-                return HttpResponse('Episódio adicionado com sucesso!')
-
+                return HttpResponse('episodio adicionado com sucesso!')
+                              
     context = {'form': form}
     return render(request, "add_episode.html", context)
+
 
 @staff_member_required
 def addGenre(request):
