@@ -1,4 +1,4 @@
-from .strategies import MovieStrategy, SerieStrategy
+from .strategies import MovieStrategy, SerieStrategy, EpisodeStrategy
 
 def get_strategy(content_type):
     if content_type == 'movie':
@@ -6,6 +6,6 @@ def get_strategy(content_type):
     elif content_type == 'serie':
         return SerieStrategy()
     elif content_type == 'episode':
-        return SerieStrategy()
+        return EpisodeStrategy()
     else:
         raise ValueError("Tipo de conteúdo inválido.")
