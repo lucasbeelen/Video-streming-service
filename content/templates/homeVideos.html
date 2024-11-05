@@ -53,8 +53,8 @@
     <section class="section">
         <h2>Recomendaçoes para você!</h2>
         <div class="row">
-        {% for recomndation in recomandations %}
-            <a href="{% url 'get-content' recomndation.pk recomndation.type %}"><img src="{{ recomndation.thumbnail.url }}" alt="{{ recomndation.title }} Thumbnail"></a>
+        {% for recommendation in recommendations %}
+            <a href="{% url 'get-content' recommendation.pk recommendation.type %}"><img src="{{ recommendation.thumbnail.url }}" alt="{{ recommendation.title }} Thumbnail"></a>
         {% endfor %} 
         </div>
     </section>
