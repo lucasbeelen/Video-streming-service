@@ -8,7 +8,7 @@ from usuarios.models import CustomUser,Bookmark, WatchHistory, Review
 from django.db import IntegrityError,transaction
 from django.contrib.admin.views.decorators import staff_member_required
 from .facade import ContentDetailFacade
-
+from .strategies import ParentalControlStrategy, NoParentalControlStrategy
 
 # Create your views here.
 def get_similar_content(user):
@@ -93,67 +93,28 @@ def addGenre(request):
 @login_required
 def homeVideos(request):
     user = request.user
-    favorite_genres = get_similar_content(request.user)
+    favorite_genres = get_similar_content(user)
     watched_content = WatchHistory.objects.filter(user=user)
     bookmarks = Bookmark.objects.filter(user=user)
     watchhistory = WatchHistory.objects.filter(user=user)
+
+    # Seleciona a estratégia de acordo com o controle parental
     if user.parental_control_enabled:
-        movies =  Movie.objects.filter(classification__lte = user.age)
-        series = Serie.objects.filter(classification__lte = user.age)
-        content = list(movies) + list(series)
-        
-        recommended_movies = Movie.objects.filter(genre__in=favorite_genres, classification__lte = user.age).exclude(
-        id__in=[watch.content_object.id for watch in watched_content if isinstance(watch.content_object, Movie)]
-        )
-    
-        recommended_series = Serie.objects.filter(genre__in=favorite_genres,classification__lte = user.age).exclude(
-        id__in=[watch.content_object.id for watch in watched_content if isinstance(watch.content_object, Serie)]
-        )
-        recommendations = list(recommended_movies) + list(recommended_series)
-        
-        
-        filtered_bookmarks = []
-        for bookmark in bookmarks:
-            if isinstance(bookmark.content_object, Movie) and bookmark.content_object.classification <= user.age:
-                filtered_bookmarks.append(bookmark)
-            elif isinstance(bookmark.content_object, Serie) and bookmark.content_object.classification <= user.age:
-                filtered_bookmarks.append(bookmark)
-        bookmarks = filtered_bookmarks
-        
-        
-        filtered_watchhistory = []
-        for watch in watchhistory:
-            if isinstance(watch.content_object, Movie) and watch.content_object.classification <= user.age:
-                filtered_watchhistory.append(watch)
-            elif isinstance(watch.content_object, Serie) and watch.content_object.classification <= user.age:
-                filtered_watchhistory.append(watch)
-        watchhistory = filtered_watchhistory
-                
-        
+        strategy = ParentalControlStrategy(user, favorite_genres, watched_content)
     else:
-        movies = Movie.objects.all()
-        series = Serie.objects.all()
-        content = list(movies) + list(series)
-        
-        bookmarks = Bookmark.objects.filter(user=user)
-        watchhistory = WatchHistory.objects.filter(user=user)
-        recommended_movies = Movie.objects.filter(genre__in=favorite_genres).exclude(
-        id__in=[watch.content_object.id for watch in watched_content if isinstance(watch.content_object, Movie)]
-        )
-    
-        recommended_series = Serie.objects.filter(genre__in=favorite_genres).exclude(
-        id__in=[watch.content_object.id for watch in watched_content if isinstance(watch.content_object, Serie)]
-        )
-        recommendations = list(recommended_movies) + list(recommended_series)
-        
-        
-    
-    
-    context={
-         'content': content,
-         'bookmarks': bookmarks,
-         'watchhistory': watchhistory,
-         'recomandations': recommendations
+        strategy = NoParentalControlStrategy(user, favorite_genres, watched_content)
+
+    # Usa a estratégia para obter dados filtrados
+    content = strategy.get_content()
+    bookmarks = strategy.get_bookmarks(bookmarks)
+    watchhistory = strategy.get_watch_history(watchhistory)
+    recommendations = strategy.get_recommendations()
+
+    context = {
+        'content': content,
+        'bookmarks': bookmarks,
+        'watchhistory': watchhistory,
+        'recommendations': recommendations
     }
     return render(request, "homeVideos.html", context)
 
@@ -163,7 +124,6 @@ def get_content(request, pk, type):
         facade = ContentDetailFacade(request.user, type, pk)
         context = facade.get_context(request)
 
-        # Seleciona o template correto com base no tipo de conteúdo
         template_name = 'movieDetail.html' if type == 'movie' else 'serieDetail.html'
         return render(request, template_name, context)
 
