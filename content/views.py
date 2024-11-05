@@ -10,75 +10,40 @@ from django.contrib.admin.views.decorators import staff_member_required
 from .facade import ContentDetailFacade
 from .strategies import ParentalControlStrategy, NoParentalControlStrategy
 from .utils import get_similar_content
+from .factories import ContentFactory
 
 # Create your views here.
 @staff_member_required
 def addMovie(request):
-    
-    if request.method == 'GET':
-        form = MovieForm()
-        
-    if request.method == 'POST':
-        form = MovieForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponse('novo filme adicionado com sucesso!')
-                  
-    context = {'form': form}
-    return render(request, "add_movie.html", context)
-
+    return add_content(request, 'movie', success_message='Novo filme adicionado com sucesso!')
 
 @staff_member_required
 def addSerie(request):
-    
-    if request.method == 'GET':
-        form = SerieForm()
-        
-    if request.method == 'POST':
-        form = SerieForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('add-episode')
-                  
-    context = {'form': form}
-    return render(request, "add_serie.html", context)
-
+    return add_content(request, 'serie', success_message='Nova série adicionada com sucesso!', redirect_url='add-episode')
 
 @staff_member_required
 def addEpisode(request):
-    if request.method == 'GET':
-        form = EpisodeForm()
-        
-    if request.method == 'POST':
-        form = EpisodeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            if 'add_another' in request.POST:
-                form = EpisodeForm() 
-            else:
-                return HttpResponse('episodio adicionado com sucesso!')
-                              
-    context = {'form': form}
-    return render(request, "add_episode.html", context)
-
+    return add_content(request, 'episode', success_message='Episódio adicionado com sucesso!', allow_add_another=True)
 
 @staff_member_required
 def addGenre(request):
-    if request.method == 'GET':
-        form = GenreForm()
-        
-    if request.method == 'POST':
-        form = GenreForm(request.POST)
-        if form.is_valid():
-            try:
-                with transaction.atomic():
-                    form.save()
-                return HttpResponse('Novo gênero adicionado com sucesso!')
-            except IntegrityError:
-                return HttpResponse('Erro ao adicionar o gênero! Verifique se há problemas com as referências.')
-                  
-    context = {'form': form}
-    return render(request, "add_genre.html", context)
+    return add_content(request, 'genre', success_message='Novo gênero adicionado com sucesso!')
+
+def add_content(request, content_type, success_message, redirect_url=None, allow_add_another=False):
+    form = ContentFactory.create_content(content_type, request.POST if request.method == 'POST' else None, request.FILES if request.method == 'POST' else None)
+    
+    if request.method == 'POST' and form.is_valid():
+        try:
+            with transaction.atomic():
+                form.save()
+            if allow_add_another and 'add_another' in request.POST:
+                form = ContentFactory.create_content(content_type)  # Reset form for new entry
+            else:
+                return redirect(redirect_url) if redirect_url else HttpResponse(success_message)
+        except IntegrityError:
+            return HttpResponse('Erro ao salvar o conteúdo! Verifique as referências.')
+    
+    return render(request, f"add_{content_type}.html", {'form': form})
 
 @login_required
 def homeVideos(request):
