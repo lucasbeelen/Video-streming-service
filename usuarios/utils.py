@@ -5,5 +5,7 @@ def get_strategy(content_type):
         return MovieStrategy()
     elif content_type == 'serie':
         return SerieStrategy()
+    elif content_type == 'episode':
+        return SerieStrategy()
     else:
         raise ValueError("Tipo de conteúdo inválido.")

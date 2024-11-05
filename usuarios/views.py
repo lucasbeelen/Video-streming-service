@@ -86,7 +86,7 @@ def add_watch_to_history(request, pk, type):
     )
     if type == 'movie':
         return redirect('play-movie', pk=pk, type=type)
-    return redirect('play-episode', pk=pk, type=type)
+    return redirect('play-movie', pk=pk, type=type)
 
 @login_required
 def parental_control(request):
