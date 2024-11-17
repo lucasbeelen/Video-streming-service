@@ -37,7 +37,7 @@ def add_content(request, content_type, success_message, redirect_url=None, allow
             with transaction.atomic():
                 form.save()
             if allow_add_another and 'add_another' in request.POST:
-                form = ContentFactory.create_content(content_type)  # Reset form for new entry
+                form = ContentFactory.create_content(content_type)  
             else:
                 return redirect(redirect_url) if redirect_url else HttpResponse(success_message)
         except IntegrityError:
@@ -53,13 +53,13 @@ def homeVideos(request):
     bookmarks = Bookmark.objects.filter(user=user)
     watchhistory = WatchHistory.objects.filter(user=user)
 
-    # Seleciona a estratégia de acordo com o controle parental
+    
     if user.parental_control_enabled:
         strategy = ParentalControlStrategy(user, favorite_genres, watched_content)
     else:
         strategy = NoParentalControlStrategy(user, favorite_genres, watched_content)
 
-    # Usa a estratégia para obter dados filtrados
+    
     content = strategy.get_content()
     bookmarks = strategy.get_bookmarks(bookmarks)
     watchhistory = strategy.get_watch_history(watchhistory)
